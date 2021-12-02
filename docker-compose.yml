@@ -1,0 +1,16 @@
+version: '3' # docker-composeのバージョン
+services:
+  app:
+    build:
+      # イメージを作るためのDockerfileがある場所
+      context: . # Dockerfileのある場所
+      dockerfile: Dockerfile
+    volumes:
+      # ローカルのデータにコンテナのデータをマウントする。
+      - ./:/usr/src/app
+    working_dir: /usr/src/app/open-next # デフォルトの作業ディレクトリを指定
+    environment:
+      - CHOKIDAR_USEPOLLING=true # docker環境の中でホットリロードを有効にします。
+    command: sh -c "npm run dev" # シェルの起動およびコマンドの実行
+    ports:
+      - "3000:3000" # 左がローカル、右がDocker内のポート
